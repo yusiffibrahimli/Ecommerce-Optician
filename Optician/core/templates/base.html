@@ -1,0 +1,1175 @@
+{% load static i18n %}
+<!DOCTYPE html>
+<html class="no-js" lang="">
+    
+<!-- Mirrored from htmldemo.net/optician/optician/blog.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Jun 2023 15:08:36 GMT -->
+<head>
+        <meta charset="utf-8" />
+        <meta htt   p-equiv="x-ua-compatible" content="ie=edge" />
+        <title>Blog || Optician</title>
+        <meta name="description" content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <!-- favicon -->
+        <link rel="shortcut icon" type="image/x-icon" href="{% static 'img/favicon.ico' %}" />
+
+        <!-- Google fonts -->
+        <link
+            href="https://fonts.googleapis.com/css?family=Oxygen:400,700,300"
+            rel="stylesheet"
+            type="text/css"
+        />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <link
+            href="https://fonts.googleapis.com/css?family=Arimo:400,400italic,700italic,700"
+            rel="stylesheet"
+            type="text/css"
+        />
+
+        <link rel="stylesheet" href="{% static 'style.css' %}" />
+
+        <!-- modernizr js -->
+        <script src="{% static 'js/vendor/modernizr-2.8.3.min.js' %}"></script>
+    </head>
+    <body>
+        <!--[if lt IE 8]>
+            <p class="browserupgrade">
+                You are using an <strong>outdated</strong> browser. Please
+                <a href="http://browsehappy.com/">upgrade your browser</a> to
+                improve your experience.
+            </p>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+
+        <!-- header-area start -->
+        <header class="header-area">
+            <div class="header-top">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-4 col-8">
+                            <div class="logo">
+                                <a href="index.html"
+                                    ><img src="{% static 'img/logo/logo.png' %}" alt=""
+                                /></a>
+                            </div>
+                            <div class="top-link d-none d-lg-block">
+                                <ul class="menu dropit">
+                                    <li class="my-account">
+                                        <a title="My Account" href=""
+                                            >My Account</a
+                                        >
+                                    </li>
+                                    <li class="my-wishlist">
+                                        <a title="Wish List (0)" href="#"
+                                            >Wish List (0)</a
+                                        >
+                                    </li>
+                                    <li class="my-shoppingcart">
+                                        <a title="Shopping Cart" href="{% url 'product' %}"
+                                            >Shopping Cart</a
+                                        >
+                                    </li>
+                                    <li class="my-checkout">
+                                        <a title="Checkout" href=""
+                                            >Checkout</a
+                                        >
+                                    </li>      
+                                    
+                                </ul>
+                               
+                            </div>
+                            {% if user.is_authenticated %}
+                              
+                            <form method="POST" action="{% url 'logout' %}">
+                                {% csrf_token %}                                    
+                                <li class="logout-in">
+                                    <button type="submit">Logout</button>
+                                </li>                               
+                            </form>
+                            {% else %}
+                                <li class="logout-in">
+                                    <a title="Login" href="{% url 'login' %}">Login</a>
+                                </li>  
+                                <li class="logout-in">
+                                    <a title="Login" href="{% url 'register' %}">Register</a>
+                                </li>                              
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6 col-sm-8 col-4">
+                            <div class="top-bar">
+                                <div id="search" class="d-none d-sm-block">
+                                    <form action="{% url 'search' %}" method="get">
+                                        {% csrf_token %}
+                                        <input type="text" name="q" placeholder="Search...">
+                                    </form>
+                                    <span>
+                                        <button class="button">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </span>
+                                </div>
+                                <div class="english block-language-wrapper">
+                                    <ul class="dropdown menu" role="menu">
+                                        {% get_current_language as CURRENT_LANGUAGE %}
+                                        {% get_available_languages as AVAILABLE_LANGUAGES %}
+                                        {% get_language_info_list for AVAILABLE_LANGUAGES as languages %}
+                                        <li>
+                                            <a href="#">
+                                                <i class="fa fa-caret-down"></i>
+                                                {% if CURRENT_LANGUAGE == 'en' %}
+                                                    <img src="https://flagcdn.com/20x15/gb.png" height="10" width="15px" alt="..">
+                                                {% else %}
+                                                    <img src="https://flagcdn.com/20x15/{{ CURRENT_LANGUAGE }}.png" height="10" width="15px" alt="..">
+                                                {% endif %}
+                                            </a>
+                                            <ul>
+                                                <li>
+                                                    {% for language in languages %}
+                                                        <a href="/{{ language.code }}{{ request.path|slice:'3:' }}" 
+                                                           class="{% if language.code == CURRENT_LANGUAGE %}active{% endif %}">
+                                                            {% if language.code == 'en' %}
+                                                                <img src="https://flagcdn.com/20x15/gb.png" height="10" width="15px" alt="{{ language.code }}">
+                                                                EN
+                                                            {% else %}
+                                                                <img src="https://flagcdn.com/20x15/{{ language.code }}.png" height="10" width="15px" alt="{{ language.code }}">
+                                                                AZ
+                                                            {% endif %}
+                                                        </a>
+                                                    {% endfor %}
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                                
+                                
+                                
+                                <div class="top-currency d-none d-md-block">
+                                    <div class="lang-curr">
+                                        <ul>
+                                            <li>
+                                                <span>USD</span>
+                                                <ul
+                                                    class="dropdown-select-menu"
+                                                >
+                                                    <li><a href="#">EUR</a></li>
+                                                    <li><a href="#">GBP</a></li>
+                                                    <li><a href="#">USD</a></li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div id="cart">
+                                    <div class="cart-inner">
+                                        <button></button>
+                                        <ul class="dropdown-menu-cart">
+                                            <li>
+                                                <a
+                                                    class="menu-cart-imgs"
+                                                    href="#"
+                                                >
+                                                    <img
+                                                        src="{% static 'img/cart/product_(17)-54x54.jpg' %}"
+                                                        alt=""
+                                                    />
+                                                </a>
+                                                <div class="product-details">
+                                                    <p>
+                                                        <a href="#"
+                                                            >Aenean qua</a
+                                                        >
+                                                    </p>
+                                                    <button>remove</button>
+                                                    <strong>1</strong> x
+                                                    <span class="price"
+                                                        >$159.00</span
+                                                    >
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <a
+                                                    class="menu-cart-imgs"
+                                                    href="#"
+                                                >
+                                                    <img
+                                                        src="{% static 'img/cart/product_(52)-54x54.jpg' %}"
+                                                        alt=""
+                                                    />
+                                                </a>
+                                                <div class="product-details">
+                                                    <p>
+                                                        <a href="#"
+                                                            >suscipit quis</a
+                                                        >
+                                                    </p>
+                                                    <button>remove</button>
+                                                    <strong>1</strong> x
+                                                    <span class="price"
+                                                        >$100.00</span
+                                                    >
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="top-subtotal">
+                                                    <div class="total">
+                                                        <strong
+                                                            >Sub-Total:
+                                                        </strong>
+                                                        <span class="price"
+                                                            >$259.00</span
+                                                        >
+                                                    </div>
+                                                    <div class="total">
+                                                        <strong>Total: </strong>
+                                                        <span class="price"
+                                                            >$259.00</span
+                                                        >
+                                                    </div>
+                                                </div>
+                                                <div class="actions">
+                                                    <button>
+                                                        <span>Checkout</span>
+                                                    </button>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="header-bottom d-none d-lg-block">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="main-menu">
+                                <nav>
+                                    <ul>
+                                        <li class=" {% if request.resolver_match.url_name == 'index' %} active {% endif%}">
+                                            <a href="{% url 'index' %}">Home</a>
+                                            <div class="submenu mega-menu-1">
+                                                <div class="mega-menu-1-column">
+                                                    <ul>
+                                                        <li>
+                                                            <a
+                                                                href="index-2.html"
+                                                                >Home version
+                                                                2</a
+                                                            >
+                                                        </li>
+                                                        <li>
+                                                            <a
+                                                                href="index-3.html"
+                                                                >Home version
+                                                                3</a
+                                                            >
+                                                        </li>
+                                                        <li>
+                                                            <a
+                                                                href="index-4.html"
+                                                                >Home version
+                                                                4</a
+                                                            >
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class=" {% if request.resolver_match.url_name == 'product' %} active {% endif%}">
+                                            <a href="{% url 'product' %}">Laptop</a>
+                                            <div
+                                                class="mega-menu-1 mega-menu-tab"
+                                            >
+                                                <div class="mega-menu-1-column">
+                                                    <ul>
+                                                        <li>
+                                                            <a
+                                                                class="mega-menu-br"
+                                                                href="#"
+                                                                ><span
+                                                                    class="mega-inner"
+                                                                    >Electronic
+                                                                    1</span
+                                                                ></a
+                                                            >
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"
+                                                                >Electronic 1
+                                                                elit</a
+                                                            >
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"
+                                                                >Electronic 1
+                                                                libero</a
+                                                            >
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"
+                                                                >Electronic 1
+                                                                nulla</a
+                                                            >
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="mega-menu-1-column">
+                                                    <ul>
+                                                        <li>
+                                                            <a
+                                                                class="mega-menu-br"
+                                                                href="#"
+                                                                ><span
+                                                                    class="mega-inner"
+                                                                    >Electronic
+                                                                    2</span
+                                                                ></a
+                                                            >
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"
+                                                                >Electronic 2
+                                                                elit</a
+                                                            >
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"
+                                                                >Electronic 2
+                                                                libero</a
+                                                            >
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"
+                                                                >Electronic 2
+                                                                nulla</a
+                                                            >
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="mega-menu-1-column">
+                                                    <ul>
+                                                        <li>
+                                                            <a
+                                                                class="mega-menu-br"
+                                                                href="#"
+                                                                ><span
+                                                                    class="mega-inner"
+                                                                    >Electronic
+                                                                    3</span
+                                                                ></a
+                                                            >
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"
+                                                                >Electronic 3
+                                                                elit</a
+                                                            >
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"
+                                                                >Electronic 3
+                                                                libero</a
+                                                            >
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"
+                                                                >Electronic 3
+                                                                nulla</a
+                                                            >
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <a href="{% url 'product' %}">Tablet</a>
+                                            <div
+                                                class="mega-menu-2 mega-menu-1"
+                                            >
+                                                <div class="mega-menu-1-column">
+                                                    <ul>
+                                                        <li>
+                                                            <a
+                                                                class="mega-menu-br"
+                                                                href="#"
+                                                                ><span
+                                                                    class="mega-inner"
+                                                                    >Furniture
+                                                                    1</span
+                                                                ></a
+                                                            >
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"
+                                                                >Furniture 1
+                                                                elit</a
+                                                            >
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"
+                                                                >Furniture 1
+                                                                libero</a
+                                                            >
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"
+                                                                >Furniture 1
+                                                                nulla</a
+                                                            >
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="mega-menu-1-column">
+                                                    <ul>
+                                                        <li>
+                                                            <a
+                                                                class="mega-menu-br"
+                                                                href="#"
+                                                                ><span
+                                                                    class="mega-inner"
+                                                                    >MACS</span
+                                                                ></a
+                                                            >
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"
+                                                                >Macs 2</a
+                                                            >
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"
+                                                                >Macs 3</a
+                                                            >
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"
+                                                                >Macs Elit</a
+                                                            >
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="mega-menu-1-column">
+                                                    <ul>
+                                                        <li>
+                                                            <a
+                                                                class="mega-menu-br"
+                                                                href="#"
+                                                                ><span
+                                                                    class="mega-inner"
+                                                                    >Windows
+                                                                    3</span
+                                                                ></a
+                                                            >
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"
+                                                                >Windows 1</a
+                                                            >
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"
+                                                                >Windows 2</a
+                                                            >
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"
+                                                                >Windows 3</a
+                                                            >
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="mega-menu-1-column">
+                                                    <div class="menu-banner">
+                                                        <a href="#"
+                                                            ><img
+                                                                src="{% static 'img/menu/custum_menu.jpg' %}"
+                                                                alt=""
+                                                        /></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <a href="{% url 'product' %}">Smart Phone</a>
+                                            <div class="submenu mega-menu-1">
+                                                <div class="mega-menu-1-column">
+                                                    <ul>
+                                                        <li>
+                                                            <a href="#">GIFT</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#">PC</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#">MAc</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <a href="{% url 'product' %}">Desktop</a>
+                                            <div
+                                                class="mega-menu-4 mega-menu-1"
+                                            >
+                                                <div class="mega-menu-1-column">
+                                                    <ul>
+                                                        <li>
+                                                            <a
+                                                                class="mega-menu-br"
+                                                                href="#"
+                                                                ><span
+                                                                    class="mega-inner"
+                                                                    >Bags
+                                                                    2</span
+                                                                ></a
+                                                            >
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"
+                                                                >Bags 2 elit</a
+                                                            >
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"
+                                                                >Bags 2
+                                                                libero</a
+                                                            >
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"
+                                                                >Bags 2 nulla</a
+                                                            >
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="mega-menu-1-column">
+                                                    <ul>
+                                                        <li>
+                                                            <a
+                                                                class="mega-menu-br"
+                                                                href="#"
+                                                                ><span
+                                                                    class="mega-inner"
+                                                                    >Bags
+                                                                    3</span
+                                                                ></a
+                                                            >
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"
+                                                                >Bags 3 elit</a
+                                                            >
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"
+                                                                >Bags 3
+                                                                libero</a
+                                                            >
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"
+                                                                >Bags 3 nulla</a
+                                                            >
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="mega-menu-1-column">
+                                                    <ul>
+                                                        <li>
+                                                            <a
+                                                                class="mega-menu-br"
+                                                                href="#"
+                                                                ><span
+                                                                    class="mega-inner"
+                                                                    >Ring</span
+                                                                ></a
+                                                            >
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"
+                                                                >Ring elit</a
+                                                            >
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"
+                                                                >Ring libero</a
+                                                            >
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"
+                                                                >Ring nulla</a
+                                                            >
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li  class=" {% if request.resolver_match.url_name == 'index' %} active {% endif%}">
+                                            <a href="{% url 'index' %}">Pages</a>
+                                            <div
+                                                class="submenu mega-menu-1 submenu-tab"
+                                            >
+                                                <div class="mega-menu-1-column">
+                                                    <ul>
+                                                        <li class=" {% if request.resolver_match.url_name == 'index' %} active {% endif%}">
+                                                            <a href="{% url 'product' %}"
+                                                                >Shop Page</a
+                                                            >
+                                                        </li>
+                                                        <li class=" {% if request.resolver_match.url_name == 'index' %} active {% endif%}">
+                                                            <a
+                                                                href="shop-list.html"
+                                                                >Shop List</a
+                                                            >
+                                                        </li>
+                                                        <li class=" {% if request.resolver_match.url_name == 'index' %} active {% endif%}">
+                                                            <a
+                                                                href=""
+                                                                >Single
+                                                                Product</a
+                                                            >
+                                                        </li>
+                                                        <li class=" {% if request.resolver_match.url_name == 'index' %} active {% endif%}">
+                                                            <a
+                                                                href=""
+                                                                >Shopping
+                                                                Cart</a
+                                                            >
+                                                        </li>
+                                                        <li>
+                                                            <a href="{% url 'wishlist' %}">Wishlist</a>
+                                                        </li>
+                                                        <li>
+                                                            <a
+                                                                href="{% url 'my_account' %}"
+                                                                >My Account</a
+                                                            >
+                                                        </li>
+                                                        <li>
+                                                            <a href="{% url 'login' %}"
+                                                                >Login</a
+                                                            >
+                                                        </li>
+                                                        <li>
+                                                            <a
+                                                                href="{% url 'checkout' %}"
+                                                                >Checkout</a
+                                                            >
+                                                        </li>
+                                                        <li>
+                                                            <a href="{% url 'blog' %}"
+                                                                >Blog</a
+                                                            >
+                                                        </li>
+                                                        {% for blog in blogs %}
+                                                        <li>
+                                                            <a
+                                                                href="#"
+                                                                >Blog Details</a
+                                                            >
+                                                        </li>
+                                                        {% endfor %}
+                                                        <li>
+                                                            <a
+                                                                href="{% url 'about' %}"
+                                                                >About Us</a
+                                                            >
+                                                        </li>
+                                                        <li>
+                                                            <a
+                                                                href="{% url 'contact' %}"
+                                                                >Contact Us</a
+                                                            >
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <a href="{% url 'product' %}">Accessories</a>
+                                            <div
+                                                class="mega-menu-5 mega-menu-1"
+                                            >
+                                                <div class="mega-menu-1-column">
+                                                    <ul>
+                                                        <li>
+                                                            <a
+                                                                class="mega-menu-br mega-menu-small-br"
+                                                                href="#"
+                                                                ><span
+                                                                    class="mega-inner"
+                                                                    >Mice and
+                                                                    Trackballs</span
+                                                                ></a
+                                                            >
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"
+                                                                >Mice and
+                                                                Trackballs 1</a
+                                                            >
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"
+                                                                >Mice and
+                                                                Trackballs 2</a
+                                                            >
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"
+                                                                >Mice and
+                                                                Trackballs 3</a
+                                                            >
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="mega-menu-1-column">
+                                                    <ul>
+                                                        <li>
+                                                            <a
+                                                                class="mega-menu-br"
+                                                                href="#"
+                                                                ><span
+                                                                    class="mega-inner"
+                                                                    >Electronic
+                                                                    1</span
+                                                                ></a
+                                                            >
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"
+                                                                >Electronic 1
+                                                                elit</a
+                                                            >
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"
+                                                                >Electronic 1
+                                                                libero</a
+                                                            >
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"
+                                                                >Electronic 1
+                                                                nulla</a
+                                                            >
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="mega-menu-1-column">
+                                                    <ul>
+                                                        <li>
+                                                            <a
+                                                                class="mega-menu-br"
+                                                                href="#"
+                                                                ><span
+                                                                    class="mega-inner"
+                                                                    >Electronic
+                                                                    2</span
+                                                                ></a
+                                                            >
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"
+                                                                >Electronic 2
+                                                                elit</a
+                                                            >
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"
+                                                                >Electronic 2
+                                                                libero</a
+                                                            >
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"
+                                                                >Electronic 2
+                                                                nulla</a
+                                                            >
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="mega-menu-1-column">
+                                                    <ul>
+                                                        <li>
+                                                            <a
+                                                                class="mega-menu-br"
+                                                                href="#"
+                                                                ><span
+                                                                    class="mega-inner"
+                                                                    >Electronic
+                                                                    3</span
+                                                                ></a
+                                                            >
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"
+                                                                >Electronic 3
+                                                                elit</a
+                                                            >
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"
+                                                                >Electronic 3
+                                                                libero</a
+                                                            >
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"
+                                                                >Electronic 3
+                                                                nulla</a
+                                                            >
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <a href="{% url 'product' %}">Gifts</a>
+                                            <div
+                                                class="mega-menu-6 mega-menu-1"
+                                            >
+                                                <div class="mega-menu-1-column">
+                                                    <ul>
+                                                        <li>
+                                                            <a
+                                                                class="mega-menu-br mega-menu-small-br"
+                                                                href="#"
+                                                                ><span
+                                                                    class="mega-inner"
+                                                                    >Fashion &
+                                                                    Beauty
+                                                                    1</span
+                                                                ></a
+                                                            >
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"
+                                                                >Fashion &
+                                                                Beauty 1 elit</a
+                                                            >
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"
+                                                                >Fashion &
+                                                                Beauty 1
+                                                                libero</a
+                                                            >
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"
+                                                                >Fashion &
+                                                                Beauty 1
+                                                                nulla</a
+                                                            >
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="mega-menu-1-column">
+                                                    <ul>
+                                                        <li>
+                                                            <a
+                                                                class="mega-menu-br mega-menu-small-br"
+                                                                href="#"
+                                                                ><span
+                                                                    class="mega-inner"
+                                                                    >Fashion &
+                                                                    Beauty
+                                                                    2</span
+                                                                ></a
+                                                            >
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"
+                                                                >Fashion &
+                                                                Beauty 2 elit</a
+                                                            >
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"
+                                                                >Fashion &
+                                                                Beauty 2
+                                                                libero</a
+                                                            >
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"
+                                                                >Fashion &
+                                                                Beauty 2
+                                                                nulla</a
+                                                            >
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="mega-menu-1-column">
+                                                    <ul>
+                                                        <li>
+                                                            <a
+                                                                class="mega-menu-br mega-menu-small-br"
+                                                                href="#"
+                                                                ><span
+                                                                    class="mega-inner"
+                                                                    >Fashion &
+                                                                    Beauty
+                                                                    3</span
+                                                                ></a
+                                                            >
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"
+                                                                >Fashion &
+                                                                Beauty 3 elit</a
+                                                            >
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"
+                                                                >Fashion &
+                                                                Beauty 3
+                                                                libero</a
+                                                            >
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"
+                                                                >Fashion &
+                                                                Beauty 3
+                                                                nulla</a
+                                                            >
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        {% block content %}
+        
+        {% endblock %}
+ 
+        
+
+
+            <!-- footer-area start -->
+            <footer class="footer-area footer-area-2">
+                <div class="footer-top">
+                    <div class="container">
+                        <div class="row gy-5">
+                            <div class="col-lg-3 col-sm-6">
+                                <div class="footer-title">
+                                    <h4>Information</h4>
+                                </div>
+                                <div class="footer-content">
+                                    <ul class="footer-lists">
+                                        <li>
+                                            <a href="about-us.html">About Us</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Delivery Information</a>
+                                        </li>
+                                        <li><a href="#">Privacy Policy</a></li>
+                                        <li><a href="#">Terms & Conditions</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-sm-6">
+                                <div class="footer-title">
+                                    <h4>My Account</h4>
+                                </div>
+                                <div class="footer-content">
+                                    <ul class="footer-lists">
+                                        <li>
+                                            <a href="my-account.html">My Account</a>
+                                        </li>
+                                        <li><a href="#">Order History</a></li>
+                                        <li>
+                                            <a href="wishlist.html">Wish List</a>
+                                        </li>
+                                        <li><a href="#">Newsletter</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-sm-6">
+                                <div class="footer-title">
+                                    <h4>Extras</h4>
+                                </div>
+                                <div class="footer-content">
+                                    <ul class="footer-lists">
+                                        <li><a href="#">Brands</a></li>
+                                        <li><a href="blog.html">Blog</a></li>
+                                        <li>
+                                            <a href="contact-us.html">Contact Us</a>
+                                        </li>
+                                        <li><a href="#">Specials</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-sm-6">
+                                <div class="footer-title">
+                                    <h4>Contact Us</h4>
+                                </div>
+                                <div class="footer-content">
+                                    <span class="address icon">
+                                        Towerthemes, 1234 Stret Lorem,LPA States,
+                                        Libero
+                                    </span>
+                                    <span class="phone icon">
+                                        0123456789
+                                        <br />
+                                        0123456789
+                                    </span>
+                                    <span class="email icon">demo@example.com</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-middle">
+                    <div class="container">
+                        <div class="footer-middle-bg">
+                            <div class="row gy-3">
+                                <div class="col-lg-4">
+                                    <div class="footer-newsletter">
+                                        <h6>Newsletter</h6>
+                                    </div>
+                            
+                                    {% if messages %}
+                                        <div>
+                                            {% for message in messages %}
+                                                <div class="alert alert-success" role="alert">
+                                                    {{ message }}
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                
+                                    <div class="subscribe-form">
+                                        <form method="POST" action="{% url 'subscribe' %}">
+                                            {% csrf_token %}
+                                            {{ form.email }}
+                                            <button class="button">
+                                                <span>Subscribe</span>
+                                            </button>
+                                        </form>
+                                    </div>
+                                    
+                                </div>                                                    
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="footer-social">
+                                        <ul class="social-icons">
+                                            <li>
+                                                <a
+                                                    href="#"
+                                                    data-bs-toggle="tooltip"
+                                                    data-placement="top"
+                                                    title="Facebook"
+                                                    ><i class="fa fa-facebook"></i
+                                                ></a>
+                                            </li>
+                                            <li>
+                                                <a
+                                                    href="#"
+                                                    data-bs-toggle="tooltip"
+                                                    data-placement="top"
+                                                    title="Twitter"
+                                                    ><i class="fa fa-twitter"></i
+                                                ></a>
+                                            </li>
+                                            <li>
+                                                <a
+                                                    href="#"
+                                                    data-bs-toggle="tooltip"
+                                                    data-placement="top"
+                                                    title="Skype"
+                                                    ><i class="fa fa-skype"></i
+                                                ></a>
+                                            </li>
+                                            <li>
+                                                <a
+                                                    href="#"
+                                                    data-bs-toggle="tooltip"
+                                                    data-placement="top"
+                                                    title="Dribbble"
+                                                    ><i class="fa fa-dribbble"></i
+                                                ></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="payment">
+                                        <img src="{% static 'img/payment/paypal.png' %}" alt="" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="copyright">
+                                    <p class="copyright">
+                                        &copy;
+                                        <script>
+                                            document.write(
+                                                new Date().getFullYear() + " "
+                                            );
+                                        </script>
+                                        <b>Optician</b> Made with
+                                        <i
+                                            class="fa fa-heart text-danger"
+                                            aria-hidden="true"
+                                        ></i>
+                                        by
+                                        <a href="https://hasthemes.com/"
+                                            ><b>HasThemes</b></a
+                                        >.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+            <!-- footer-area end -->
+    
+            <!-- all js here -->
+            <!-- jquery latest version -->
+            <script src="{% static 'js/vendor/jquery-1.12.4.min.js' %}"></script>
+            <!-- bootstrap js -->
+            <script src="{% static 'js/bootstrap.min.js' %}"></script>
+            <!-- owl.carousel js -->
+            <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+            <!-- meanmenu js -->
+            <script src="{% static 'js/jquery.meanmenu.js' %}"></script>
+            <!-- jquery-ui js -->
+            <script src="{% static 'js/jquery-ui.min.js' %}"></script>
+            <!-- countdown js -->
+            <script src="{% static 'js/jquery.countdown.min.js' %}"></script>
+            <!-- elevateZoom js -->
+            <script src="{% static 'js/jquery.elevateZoom-3.0.8.min.js' %}"></script>
+            <!-- wow js -->
+            <script src="{% static 'js/wow.min.js' %}"></script>
+            <!-- nivo.slider js -->
+            <script src="{% static 'lib/js/jquery.nivo.slider.js' %}"></script>
+            <script src="{% static 'lib/home.js' %}"></script>
+            <!-- plugins js -->
+            <script src="{% static 'js/plugins.js' %}"></script>
+            <!-- main js -->
+            <script src="{% static 'js/main.js' %}"></script>
+            <script src="{% static 'js/basket.js' %}"></script>
+        </body>
+    
+    <!-- Mirrored from htmldemo.net/optician/optician/blog.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Jun 2023 15:08:37 GMT -->
+    </html>
+    

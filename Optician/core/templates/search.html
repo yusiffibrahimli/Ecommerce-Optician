@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="product-carousel indicator-style owl-carousel">
+        {% for product in products %}
+            <div class="col-lg-12">
+                <div class="single-product">
+                    {% if product.sale %}   
+                        <div class="label-sale">
+                            <span>sale</span>
+                        </div>
+                    {% endif %}
+                    <div class="product-img">
+                        <a href="{% url 'product_detail' product.pk %}">
+                            <img
+                                src="{{ product.versions.first.cover_image.url }}" 
+                                alt=""
+                                class="primary-img"
+                            />
+                            <!-- <img
+                                src="{% static 'img/product/product_(12)-300x300.jpg' %}"
+                                alt=""
+                                class="secondary-img"
+                            /> -->
+                        </a>
+                    </div>
+                    <div class="product-desc">
+                        <div class="actions">
+                            <ul>
+                                <li>
+                                    <a
+                                        href="#"
+                                        data-bs-toggle="tooltip"
+                                        data-placement="top"
+                                        title="Add To Wish List"
+                                        ><em
+                                            >Add to Wish List</em
+                                        ></a
+                                    >
+                                </li>
+                                <li>
+                                    <a
+                                        href="#"
+                                        class="link-compare"
+                                        data-bs-toggle="tooltip"
+                                        data-placement="top"
+                                        title="Compare This Product"
+                                        ><em
+                                            >Compare this
+                                            Product</em
+                                        ></a
+                                    >
+                                </li>
+                            </ul>
+                            <button
+                                class="button"
+                                data-bs-toggle="tooltip"
+                                data-placement="top"
+                                title="Add To Cart"
+                            >
+                                <span>Add to Cart</span>
+                            </button>
+                        </div>
+                        <div class="product-content">
+                            <h2 class="product-name">
+                                <a href="#">{{ product.name }}</a>
+                            </h2>
+                            <div class="product-ratings">
+                                <a href="#"
+                                    ><i class="fa fa-star"></i
+                                ></a>
+                                <a href="#"
+                                    ><i class="fa fa-star"></i
+                                ></a>
+                                <a href="#"
+                                    ><i class="fa fa-star"></i
+                                ></a>
+                                <a href="#"
+                                    ><i class="fa fa-star"></i
+                                ></a>
+                                <a href="#"
+                                    ><i class="fa fa-star"></i
+                                ></a>
+                                <span class="reviews"
+                                    ><a href="#">0 reviews</a></span
+                                >
+                            </div>
+                            <div class="price-box">
+                                {% if in_sale %}
+                                    <span class="special-price">${{product.old_price}}</span>
+                                    <span class="old-price">${{product.price}}</span>
+                                {% else %}
+                                    <span class="special-price">${{product.price}}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="row">
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-8 offset-xl-2">
+                                    <div class="registration-form login-form">
+                                        <form action="" method = 'POST' >
+                                            {% csrf_token %}
+                                            <div class="login-info mb-20">
+                                                <p>Already have an account? <a href="">Log in instead!</a></p>
+                                            </div>
+                                            <div class="form-group">
+                                                <input name="first_name" type="text" class="form-control" placeholder="First name">
+                                            </div>
+                                            <div class="form-group">
+                                                <input name="last_name" type="text" class="form-control" placeholder="Last name">
+                                            </div>
+                                            <div class="form-group">
+                                                <input name="email" type="email" class="form-control" placeholder="Email">
+                                            </div>
+                                            <div class="form-group">
+                                                <input name="password1" type="password" class="form-control" placeholder="Password">
+                                            </div>
+                                            <div class="form-group">
+                                                <input name="password2" type="password" class="form-control" placeholder="Confirm password"
+                                            </div>
+                                            <!-- <div class="form-group mb-3 row align-items-center">
+                                                <label class="col-12 col-sm-12 col-md-4 col-form-label">Title</label>
+                                                <div class="col-12 col-sm-12 col-md-8 col-lg-8">
+                                                </div>
+                                            </div>
+                                            <div class="form-group mb-3 row">
+                                                <label for="f-name" class="col-12 col-sm-12 col-md-4 col-form-label">First Name</label>
+                                                <div class="col-12 col-sm-12 col-md-8 col-lg-8">
+                                                    {{ form.first_name }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group mb-3 row">
+                                                <label for="l-name" class="col-12 col-sm-12 col-md-4 col-form-label">Last Name</label>
+                                                <div class="col-12 col-sm-12 col-md-8 col-lg-8">
+                                                    {{ form.last_name }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group mb-3 row">
+                                                <label for="email" class="col-12 col-sm-12 col-md-4 col-form-label">Email Address</label>
+                                                <div class="col-12 col-sm-12 col-md-8 col-lg-8">
+                                                    {{ form.email }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group mb-3 row">
+                                                <label for="newpassword" class="col-12 col-sm-12 col-md-4 col-form-label">New Password</label>
+                                                <div class="col-12 col-sm-12 col-md-8 col-lg-8">
+                                                    {{ form.password1 }}
+                                                    <button class="pass-show-btn" type="button">Show</button>
+                                                </div>
+                                            </div>
+                                            <div class="form-group mb-3 row">
+                                                <label for="c-password" class="col-12 col-sm-12 col-md-4 col-form-label">Confirm Password</label>
+                                                <div class="col-12 col-sm-12 col-md-8 col-lg-8">
+                                                    {{ form.password2 }}
+                                                    <button class="pass-show-btn" type="button">Show</button>
+                                                </div>
+                                            </div> -->
+                                            <!-- <div class="form-check row g-0 mt-5">
+                                                <div class="col-12 col-sm-12 col-md-8 offset-md-4 col-lg-6 offset-lg-4">
+                                                    <div class="custom-checkbox">
+                                                        <input class="form-check-input" type="checkbox" id="offer">
+                                                        <span class="checkmark"></span>
+                                                        <label class="form-check-label" for="offer">Receive offers from our partners</label>
+                                                    </div>
+                                                </div>
+                                            </div> -->
+                                            <!-- <div class="form-check row g-0 mt-4">
+                                                <div class="col-12 col-sm-12 col-md-8 offset-md-4 col-lg-8 offset-lg-4">
+                                                    <div class="custom-checkbox">
+                                                        <input class="form-check-input" type="checkbox" id="subscribe" required="">
+                                                        <span class="checkmark"></span>
+                                                        <label class="form-check-label" for="subscribe">Sign up for our newsletter<br>Subscribe to our newsletters now and stay up-to-date with new collections, the latest lookbooks and exclusive offers..</label>
+                                                    </div>
+                                                </div>
+                                            </div> -->
+                                            <div class="register-box d-flex justify-content-end mt-20">
+                                                <button type="submit" class="btn btn-secondary">Register</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+{% endblock %}      

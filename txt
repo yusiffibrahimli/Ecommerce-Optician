@@ -1,0 +1,214 @@
+blog desc - Maecenas gravida neque augue, vitae efficitur libero fringilla vel. Aliquam facilisis
+
+
+                        <!-- <div class="single-blog-posts odd">
+                            <div class="blog-name">
+                                <h3>
+                                    <a href="blog-details.html"
+                                        >{{ blog.title }}</a
+                                    >
+                                </h3>
+                            </div>
+                            <p class="blog-date">{{ blog.datetime }}</p>
+                            <div class="single-blog-img">
+                                <img
+                                    src="{% static 'img/blog/img_blog03-370x224.png' %}"
+                                    alt=""
+                                />
+                            </div>
+                            <div class="single-blog-content">
+                                <p>
+                                    {{ blog.description }}
+                                </p>
+                                <a class="read-more" href="blog-details.html"
+                                    >Read more</a
+                                >
+                            </div>
+                        </div>
+                        <div class="single-blog-posts">
+                            <div class="blog-name">
+                                <h3>
+                                    <a href="blog-details.html"
+                                        >{{ blog.title }}</a
+                                    >
+                                </h3>
+                            </div>
+                            <p class="blog-date">{{ blog.datetime }}</p>
+                            <div class="single-blog-img">
+                                <img
+                                    src="{% static 'img/blog/img_blog02-370x224.jpg' %}"
+                                    alt=""
+                                />
+                            </div>
+                            <div class="single-blog-content">
+                                <p>
+                                    {{ blog.description }}
+                                </p>
+                                <a class="read-more" href="blog-details.html"
+                                    >Read more</a
+                                >
+                            </div>
+                        </div>
+                        <div class="single-blog-posts odd">
+                            <div class="blog-name">
+                                <h3>
+                                    <a href="blog-details.html"
+                                        >{{ blog.title }}</a
+                                    >
+                                </h3>
+                            </div>
+                            <p class="blog-date">{{ blog.datetime }}</p>
+                            <div class="single-blog-img">
+                                <img
+                                    src="{% static 'img/blog/img_blog03-370x224.png' %}"
+                                    alt=""
+                                />
+                            </div>
+                            <div class="single-blog-content">
+                                <p>
+                                    {{ blog.description }}
+                                </p>
+                                <a class="read-more" href="blog-details.html"
+                                    >Read more</a
+                                >
+                            </div>
+                        </div>
+                        <div class="single-blog-posts">
+                            <div class="blog-name">
+                                <h3>
+                                    <a href="blog-details.html"
+                                        >{{ blog.title }}</a
+                                    >
+                                </h3>
+                            </div>
+                            <p class="blog-date">{{ blog.datetime }}</p>
+                            <div class="single-blog-img">
+                                <img
+                                    src="{% static 'img/blog/img_blog02-370x224.jpg' %}"
+                                    alt=""
+                                />
+                            </div>
+                            <div class="single-blog-content">
+                                <p>
+                                    {{ blog.description }}
+                                </p>
+                                <a class="read-more" href="blog-details.html"
+                                    >Read more</a
+                                >
+                            </div>
+                        </div>
+                        <div class="single-blog-posts odd">
+                            <div class="blog-name">
+                                <h3>
+                                    <a href="blog-details.html"
+                                        >Lorem ipsum dolor sit amet</a
+                                    >
+                                </h3>
+                            </div>
+                            <p class="blog-date">24/07/2015 | towerthemes</p>
+                            <div class="single-blog-img">
+                                <img
+                                    src="{% static 'img/blog/img_blog01-370x224.jpg' %}"
+                                    alt=""
+                                />
+                            </div>
+                            <div class="single-blog-content">
+                                <p>
+                                    Maecenas gravida neque augue, vitae
+                                    efficitur libero fringilla vel. Aliquam
+                                    facilisis
+                                </p>
+                                <a class="read-more" href="blog-details.html"
+                                    >Read more</a
+                                >
+                            </div>
+                        </div> -->
+
+                        class Product(BaseModel):
+
+                        title = models.CharField(max_length=100, verbose_name='Title of the cart', help_text='max 100 characters')
+                        image = models.ImageField(verbose_name='Image of the cart')
+                        change_image = models.ImageField(verbose_name='Change image of the cart')
+                        price = models.PositiveIntegerField()
+                        brands = models.ManyToManyField('product.Brand', related_name='ProductBrand' )
+                        cart_type = models.IntegerField(choices=CART_TYPES, default=0, verbose_name='Type of the cart')
+                        is_published = models.BooleanField(default=False, verbose_name='Is published?')
+                    
+                        class Meta:
+                            verbose_name = 'Product'
+                            verbose_name_plural = 'All Products'
+                    
+                        def __str__(self):
+                            return self.title
+
+
+
+                            from Optician.utils.base import BaseModel
+
+
+class Brand(BaseModel):
+    title = models.CharField(max_length=100, verbose_name='Title of the cart', help_text='max 100 characters')
+
+    class Meta:
+        verbose_name = 'Product brand'
+        verbose_name_plural = 'All Products brands'
+
+    def __str__(self):
+        return self.title 
+
+
+
+
+
+
+        {% if user.is_authenticated %}
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}                                    
+            <li class="logout-in">
+                <button type="submit">Logout</button>
+            </li>                               
+        </form>
+        {% else %}
+            <li class="logout-in">
+                <a title="Login" href="{% url 'login' %}">Login</a>
+            </li>                               
+        {% endif %}
+
+
+
+
+        <div class="language">
+            <p>{{LANGUAGE_CODE}}</p>		
+            <ul>
+            
+            {% for language in languages %}
+            {% if language.code != LANGUAGE_CODE %}
+                <li>
+                    
+                    <a href="{% url 'set_language' %}?language={{ language.code }}&next={{ request.path }}">
+                        {{ language.name_local }}
+                    </a>
+                </li>
+            {%endif%}
+            {% endfor %}
+        </ul>
+        </div>
+
+
+        class ProductView(ListView):
+        model = Product
+        template_name = 'shop.html'
+        context_object_name = 'products'
+    
+        def get_queryset(self):
+            product = Product.objects.all()
+            print(product)
+            return Product.objects.all()
+        
+        def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            context['categories'] = Category.objects.all()
+            context['manufacturers'] = Manufacturer.objects.all()
+            context['colors'] = Color.objects.all()
+           
+            return context
